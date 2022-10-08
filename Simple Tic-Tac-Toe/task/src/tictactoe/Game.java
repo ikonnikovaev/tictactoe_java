@@ -1,5 +1,8 @@
 package tictactoe;
 
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
 public class Game {
     private static final int FIELD_SIZE = 3;
     private static char[][] field;
@@ -96,10 +99,8 @@ public class Game {
                 return true;
             }
         }
-        if (checkMainDiag(ch) || checkAuxDiag(ch)) {
-            return true;
-        }
-        return false;
+        return checkMainDiag(ch) || checkAuxDiag(ch);
+
     }
 
     public boolean isPossible() {
@@ -108,10 +109,7 @@ public class Game {
         }
         int nX = countChar('X');
         int nO =countChar('O');
-        if (Math.abs(nX - nO) > 1) {
-            return false;
-        }
-        return true;
+        return !(Math.abs(nX - nO) > 1);
     }
 
     public String getState() {
@@ -128,5 +126,28 @@ public class Game {
             return "Game not finished";
         }
         return "Draw";
+    }
+
+    public void makeUserMove(char ch) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                int r = scanner.nextInt() - 1;
+                int c = scanner.nextInt() - 1;
+                if (field[r][c] == '_') {
+                    field[r][c] = ch;
+                    break;
+                } else {
+                    System.out.println("This cell is occupied! Choose another one!");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You should enter numbers!");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Coordinates should be from 1 to 3!");
+            }
+        }
+
+
+
     }
 }

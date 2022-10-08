@@ -13,6 +13,8 @@ public class Main {
         Game game = new Game();
         game.makeField(input);
         game.printField();
-        System.out.println(game.getState());
+        // System.out.println(game.getState());
+        game.makeUserMove('X');
+        game.printField();
     }
 }
