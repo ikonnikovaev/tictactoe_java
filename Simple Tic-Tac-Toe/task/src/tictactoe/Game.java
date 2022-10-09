@@ -5,6 +5,12 @@ import java.util.InputMismatchException;
 
 public class Game {
     private static final int FIELD_SIZE = 3;
+    private static final String GAME_NOT_FINISHED = "Game not finished";
+    private static final String X_WINS = "X wins";
+    private static final String O_WINS = "O wins";
+    private static final String DRAW = "Draw";
+
+    private static final String IMPOSSIBLE = "Impossible";
     private static char[][] field;
 
     public void makeField(String input) {
@@ -114,18 +120,18 @@ public class Game {
 
     public String getState() {
         if (!isPossible()) {
-            return "Impossible";
+            return IMPOSSIBLE;
         }
         if (isWinner('X')) {
-            return "X wins";
+            return X_WINS;
         }
         if (isWinner('O')) {
-            return "O wins";
+            return O_WINS;
         }
         if (hasEmptyCells()) {
-            return "Game not finished";
+            return GAME_NOT_FINISHED;
         }
-        return "Draw";
+        return DRAW;
     }
 
     public void makeUserMove(char ch) {
@@ -146,8 +152,23 @@ public class Game {
                 System.out.println("Coordinates should be from 1 to 3!");
             }
         }
+    }
 
-
-
+    public void play() {
+        makeField("_".repeat(FIELD_SIZE * FIELD_SIZE));
+        printField();
+        int i = 0;
+        String state = getState();
+        while (state.equals(GAME_NOT_FINISHED)) {
+            char ch = 'X';
+            if (i % 2 == 1) {
+                ch = 'O';
+            }
+            makeUserMove(ch);
+            printField();
+            i += 1;
+            state = getState();
+        }
+        System.out.println(state);
     }
 }
